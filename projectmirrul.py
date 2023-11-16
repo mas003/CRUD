@@ -68,6 +68,18 @@ def show_students():
 
     back_to_menu()
 
+def show_students_for_edit_delete():
+    clear_screen()
+    students = read_students()
+
+    if len(students) > 0:
+        print(f"{fieldnames[0]} \t {fieldnames[1]} \t\t {fieldnames[2]}")
+        print("-" * 34)
+        for data in students:
+            print(f"{data['NIM']} \t {data['Nama']} \t {data['Jurusan']}")
+    else:
+        print("Tidak ada data mahasiswa!")
+
 def add_student():
     clear_screen()
     students = read_students()
@@ -85,7 +97,7 @@ def add_student():
 def edit_student():
     clear_screen()
     students = read_students()
-    show_students()
+    show_students_for_edit_delete()
 
     nim = input("Masukkan NIM mahasiswa yang akan diubah: ")
     found_student = next((student for student in students if student['NIM'] == nim), None)
@@ -97,23 +109,27 @@ def edit_student():
         found_student['Nama'] = new_nama
         found_student['Jurusan'] = new_jurusan
 
-        write_students(students)
+        write_students(students)  # Menuliskan kembali seluruh daftar mahasiswa
         print("Data mahasiswa berhasil diubah!")
     else:
         print("Mahasiswa dengan NIM tersebut tidak ditemukan.")
 
+    back_to_menu()
+
 def delete_student():
     clear_screen()
     students = read_students()
-    show_students()
+    show_students_for_edit_delete()
 
     nim = input("Masukkan NIM mahasiswa yang akan dihapus: ")
     students = [student for student in students if student['NIM'] != nim]
 
-    write_students(students)
+    write_students(students)  # Menuliskan kembali daftar mahasiswa setelah penghapusan
     print("Data mahasiswa berhasil dihapus!")
+
+    back_to_menu()
+
 
 if __name__ == "__main__":
     while True:
         show_menu()
-
